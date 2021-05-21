@@ -71,4 +71,21 @@ var quizQuestions = [
     },
   ];
   
+// Selectors //
+var timerEl = document.querySelector('.timer');
+var quizEl = document.querySelector('quiz');
+var questionEl = document.querySelector('.question');
+var choicesEl = document.querySelector('.choices');
+var answerEl = document.querySelector('.answers');
 
+
+
+// Function //
+function resetTimer() {
+    timer = 90;
+}
+
+// function home() {
+    questionEl.textContent = "Coding Quiz Challenge";
+    choicesEl.textContent = "Try to answer the following questions. You have 90 Seconds. Incorrect answers will deduct your score and time by 10.";
+//   }
