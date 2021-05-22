@@ -41,7 +41,7 @@ var quizQuestions = [
       correctAnswer: "b",
     },
     {
-      question: "Which of the following are JavaScript Date Type?",
+      question: "Which of the following are JavaScript Data Type?",
       answers: {
         a: "undefined",
         b: "jQuery",
