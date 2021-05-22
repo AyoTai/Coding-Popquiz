@@ -1,6 +1,4 @@
-* {background-color: thistle; 
-    /* font-family: 'Big Shoulders Display', 'cursive'; */
-}
+* {background-color: thistle; font-family: 'Big Shoulders Display', 'cursive';}
 
 .header-container {
     display:flex;
