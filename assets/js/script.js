@@ -160,7 +160,6 @@ function endQuiz() {
     if (score < 0) {
       score = 0;
     }
-    scoreSubmit.addEventListener("click", clickedScore);
 }
 
 // Function when the submit high score button is clicked //
@@ -222,18 +221,14 @@ function viewHS() {
     
     var goBackBtn = document.createElement("button");
     var clearScoreBtn = document.createElement("button");
-    goBackBtn.setAttribute("id", "goBackBtn");
     clearScoreBtn.setAttribute("id", "clearScoreBtn");
-    goBackBtn.innerHTML = "Go Back";
     clearScoreBtn.innerHTML = "Clear High Score";
     
     btnDiv.appendChild(goBackBtn);
     btnDiv.appendChild(clearScoreBtn);
 
     
-    goBack = document.querySelector("#goBackBtn");
     clearScore = document.querySelector("#clearScoreBtn");
-    goBackBtn.addEventListener("click", home);
     clearScore.addEventListener("click", clearHighScore);
 
     
@@ -260,26 +255,106 @@ function createButton(obj) {
     var answerOne = document.createElement("button");
     answerOne.textContent = "a) " + obj.answers["a"];
     answerOne.setAttribute("id", "a");
-    choicesEl.appendChild(answerOne);
     firstChoice = choicesEl.querySelector("#a");
   
     var answerTwo = document.createElement("button");
     answerTwo.textContent = "b) " + obj.answers["b"];
     answerTwo.setAttribute("id", "b");
-    choicesEl.appendChild(answerTwo);
     secondChoice = choicesEl.querySelector("#b");
   
     var answerThree = document.createElement("button");
     answerThree.textContent = "c) " + obj.answers["c"];
     answerThree.setAttribute("id", "c");
-    choicesEl.appendChild(answerThree);
     thirdChoice = choicesEl.querySelector("#c");
   
     var answerFour = document.createElement("button");
     answerFour.textContent = "d) " + obj.answers["d"];
     answerFour.setAttribute("id", "d");
-    choicesEl.appendChild(answerFour);
     forthChoice = choicesEl.querySelector("#d");
   
     createCheck = false;
 }
+
+console.log(createButton);
+console.log(renderQuestion);
+
+function clickedChoiceOne() {
+    if ("a" === quizQuestions[questionCounter].correctAnswer) {
+      answerEl.innerHTML = "Correct";
+      setTimeout(() => {
+        answerEl.innerHTML = "";
+        questionCounter++;
+        score += 10;
+      }, 1000);
+    } else {
+      answerEl.innerHTML = "Incorrect: -10 Seconds";
+      setTimeout(() => {
+        answerEl.innerHTML = "";
+        questionCounter++;
+        score -= 10;
+        timer -= 10;
+      }, 1000);
+    }
+}
+
+function clickedChoiceTwo() {
+    if ("b" === quizQuestions[questionCounter].correctAnswer) {
+      answerEl.innerHTML = "Correct";
+      setTimeout(() => {
+        answerEl.innerHTML = "";
+        questionCounter++;
+        score += 10;
+      }, 1000);
+    } else {
+      answerEl.innerHTML = "Incorrect: -10 Seconds";
+      setTimeout(() => {
+        answerEl.innerHTML = "";
+        questionCounter++;
+        score -= 10;
+        timer -= 10;
+      }, 1000);
+    }
+}
+
+function clickedChoiceThree() {
+    if ("c" === quizQuestions[questionCounter].correctAnswer) {
+      answerEl.innerHTML = "Correct";
+      setTimeout(() => {
+        answerEl.innerHTML = "";
+        questionCounter++;
+        score += 10;
+      }, 1000);
+    } else {
+      answerEl.innerHTML = "Incorrect: -10 Seconds";
+      setTimeout(() => {
+        answerEl.innerHTML = "";
+        questionCounter++;
+        score -= 10;
+        timer -= 10;
+      }, 1000);
+    }
+}
+
+function clickedChoiceFour() {
+    if ("d" === quizQuestions[questionCounter].correctAnswer) {
+      answerEl.innerHTML = "Correct";
+      setTimeout(() => {
+        answerEl.innerHTML = "";
+        questionCounter++;
+        score += 10;
+      }, 1000);
+    } else {
+      answerEl.innerHTML = "Incorrect: -10 Seconds";
+      setTimeout(() => {
+        answerEl.innerHTML = "";
+        questionCounter++;
+        score -= 10;
+        timer -= 10;
+      }, 1000);
+    }
+}
+
+console.log(clickedChoiceOne);
+console.log(clickedChoiceTwo);
+console.log(clickedChoiceThree);
+console.log(clickedChoiceFour);
