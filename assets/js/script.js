@@ -1,6 +1,7 @@
 // Variables //
-var timer = 90;
+var timer = 60;
 var score = 0;
+var questionCounter = 0;
 var firstChoice, 
     secondChoice, 
     thirdChoice, 
@@ -9,6 +10,14 @@ var playerScores = [];
 var playerInitals = [];
 var lsPlayerScores = "";
 var lsPlayerInitals = "";
+var resultScore, resultInital;
+var scoreSubmit, 
+    nameSubmit, 
+    hsList, 
+    goBack, 
+    clearScore, 
+    list;
+
 
 var quizQuestions = [
     {
@@ -77,48 +86,51 @@ var quizQuestions = [
   
 // Selectors //
 var timerEl = document.querySelector('.timer');
-var quizEl = document.querySelector('quiz');
-var questionEl = document.querySelector('.question');
+var quizEl = document.querySelector('.quiz');
+var questionEl = document.querySelector('.questions');
 var choicesEl = document.querySelector('.choices');
 var answerEl = document.querySelector('.answers');
+var startQuizBtn = document.querySelector('.start-quiz');
 
 
-
-// Functions //
+// Function //
 function resetTimer() {
-    timer = 90;
+    timer = 60;
 }
 
+// Function to start the timer //
 function startTimer() {
     var startTimer = setInterval(() => {
-        if(timer > 0) {
-            timerEl.textContent = "Time: " + timer;
-            timer--;
-            
-        } 
-    }, 1000);
+      if (timer > 0) {
+        timerEl.textContent = "Time: " + timer;
+        timer--;
+      } else if (timer === 0) {
+        clearInterval(startTimer);
+        endQuiz();
+      } else if (timer < 0) {
+        clearInterval(startTimer);
+        timer = 0;
+        timerEl.textContent = "Time: " + timer;
+        endQuiz();
+      }
+    }, 1600);
 }
-
-startTimer();
 
 function home() {
     score = 0;
-    centerChoices();
-    questionEl.innerHTML = "<h1><center>Coding Quiz Challenge</center></h1>";
+    questionEl.innerHTML = "<h1><center>Coding Pop Quiz</center></h1>";
     choicesEl.innerHTML =
-      "<h2><center>Try to answer the following questions. You have 90 Seconds. Incorrect answers will deduct your score and time by 10.</center></h2>" +
+      "<h2><center>Try to answer the following questions. You have 60 Seconds. Incorrect answers will deduct your score and time by 10.</center></h2>" +
       "<br><center><button class='start-quiz' type='button'>Start Quiz</button></center>";
     startQuizBtn = document.querySelector(".start-quiz");
     startQuizBtn.addEventListener("click", startQuiz);
     startQuizBtn.addEventListener("click", resetTimer);
 }
 
-console.log(home);
-
-// Function when start quiz button is clicked //
+// Function to Start Quiz //
 function startQuiz() {
-    alignChoices();
     startTimer();
+    clearInterval(startTimer);
     if (questionCounter === 0) {
       choicesEl.innerHTML = "";
       renderQuestion(quizQuestions[questionCounter]);
@@ -160,11 +172,33 @@ function endQuiz() {
     if (score < 0) {
       score = 0;
     }
+    questionEl.innerHTML = "<h1>Quiz Over!</h1>";
+    choicesEl.innerHTML =
+      "Your final score is " +
+      score +
+      "<div class='score'>Enter initials: <input type='text' id='initals'><button id='score-submit'>Submit</button></div>";
+    scoreSubmit = document.querySelector("#score-submit");
+    nameSubmit = document.querySelector("#initals");
+    scoreSubmit.addEventListener("click", clickedScore);
 }
 
-// Function when the submit high score button is clicked //
+  // Function to set name for score //
 function clickedScore() {
-    
+    if (playerInitals.includes(nameSubmit.value)) {
+      alert("That inital already exist");
+    } else if (
+      nameSubmit.value === "" ||
+      nameSubmit.value === null ||
+      nameSubmit.value === undefined
+    ) {
+      alert("Please enter valid initals");
+    } else {
+      playerInitals.push(nameSubmit.value);
+      playerScores.push(score);
+      setLS();
+      matchHS();
+      viewHS();
+    }
 }
 
 function setLS() {
@@ -188,12 +222,10 @@ function matchHS() {
     }
 }
 
-console.log(setLS);
-
 // Function to view highscore //
 function viewHS() {
     questionEl.innerHTML = "<h1>High Scores</h1>";
-    choicesEl.innerHTML = "<ul id='hs-list'><ul>";
+    choicesEl.innerHTML = "<ol id='hs-list'><ul>";
     hsList = document.querySelector("#hs-list");
   
     if (
@@ -221,17 +253,21 @@ function viewHS() {
     
     var goBackBtn = document.createElement("button");
     var clearScoreBtn = document.createElement("button");
+    goBackBtn.setAttribute("id", "goBackBtn");
     clearScoreBtn.setAttribute("id", "clearScoreBtn");
+    goBackBtn.innerHTML = "Go Back";
     clearScoreBtn.innerHTML = "Clear High Score";
     
     btnDiv.appendChild(goBackBtn);
     btnDiv.appendChild(clearScoreBtn);
 
     
+    goBack = document.querySelector("#goBackBtn");
     clearScore = document.querySelector("#clearScoreBtn");
+    goBackBtn.addEventListener("click", home);
     clearScore.addEventListener("click", clearHighScore);
 
-    
+    // Function to clear the high score //
     function clearHighScore() {
         playerScores = [];
         playerInitals = [];
@@ -243,41 +279,49 @@ function viewHS() {
     }
 }
 
-console.log(viewHS);
-
-
+// Function to render the Question //
 function renderQuestion(questionObj) {
     questionEl.innerHTML = questionObj.question;
 }
   
-
+// Function to render buttons / answers //
 function createButton(obj) {
     var answerOne = document.createElement("button");
     answerOne.textContent = "a) " + obj.answers["a"];
     answerOne.setAttribute("id", "a");
+    choicesEl.appendChild(answerOne);
     firstChoice = choicesEl.querySelector("#a");
   
     var answerTwo = document.createElement("button");
     answerTwo.textContent = "b) " + obj.answers["b"];
     answerTwo.setAttribute("id", "b");
+    choicesEl.appendChild(answerTwo);
     secondChoice = choicesEl.querySelector("#b");
   
     var answerThree = document.createElement("button");
     answerThree.textContent = "c) " + obj.answers["c"];
     answerThree.setAttribute("id", "c");
+    choicesEl.appendChild(answerThree);
     thirdChoice = choicesEl.querySelector("#c");
   
     var answerFour = document.createElement("button");
     answerFour.textContent = "d) " + obj.answers["d"];
     answerFour.setAttribute("id", "d");
+    choicesEl.appendChild(answerFour);
     forthChoice = choicesEl.querySelector("#d");
   
     createCheck = false;
 }
 
-console.log(createButton);
-console.log(renderQuestion);
+// Function to create eventListners for answer choices //
+function createListeners() {
+    firstChoice.addEventListener("click", clickedChoiceOne);
+    secondChoice.addEventListener("click", clickedChoiceTwo);
+    thirdChoice.addEventListener("click", clickedChoiceThree);
+    forthChoice.addEventListener("click", clickedChoiceFour);
+}
 
+// Function when answer choice is clicked //
 function clickedChoiceOne() {
     if ("a" === quizQuestions[questionCounter].correctAnswer) {
       answerEl.innerHTML = "Correct";
@@ -285,6 +329,7 @@ function clickedChoiceOne() {
         answerEl.innerHTML = "";
         questionCounter++;
         score += 10;
+        startQuiz();
       }, 1000);
     } else {
       answerEl.innerHTML = "Incorrect: -10 Seconds";
@@ -293,6 +338,7 @@ function clickedChoiceOne() {
         questionCounter++;
         score -= 10;
         timer -= 10;
+        startQuiz();
       }, 1000);
     }
 }
@@ -304,6 +350,7 @@ function clickedChoiceTwo() {
         answerEl.innerHTML = "";
         questionCounter++;
         score += 10;
+        startQuiz();
       }, 1000);
     } else {
       answerEl.innerHTML = "Incorrect: -10 Seconds";
@@ -312,6 +359,7 @@ function clickedChoiceTwo() {
         questionCounter++;
         score -= 10;
         timer -= 10;
+        startQuiz();
       }, 1000);
     }
 }
@@ -323,6 +371,7 @@ function clickedChoiceThree() {
         answerEl.innerHTML = "";
         questionCounter++;
         score += 10;
+        startQuiz();
       }, 1000);
     } else {
       answerEl.innerHTML = "Incorrect: -10 Seconds";
@@ -331,6 +380,7 @@ function clickedChoiceThree() {
         questionCounter++;
         score -= 10;
         timer -= 10;
+        startQuiz();
       }, 1000);
     }
 }
@@ -342,6 +392,7 @@ function clickedChoiceFour() {
         answerEl.innerHTML = "";
         questionCounter++;
         score += 10;
+        startQuiz();
       }, 1000);
     } else {
       answerEl.innerHTML = "Incorrect: -10 Seconds";
@@ -350,11 +401,14 @@ function clickedChoiceFour() {
         questionCounter++;
         score -= 10;
         timer -= 10;
+        startQuiz();
       }, 1000);
     }
 }
 
-console.log(clickedChoiceOne);
-console.log(clickedChoiceTwo);
-console.log(clickedChoiceThree);
-console.log(clickedChoiceFour);
+home();
+matchHS();
+
+
+highscore = document.querySelector("#highscores");
+highscore.addEventListener("click", viewHS);
