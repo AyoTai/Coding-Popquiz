@@ -113,7 +113,8 @@ function startTimer() {
         timerEl.textContent = "Time: " + timer;
         endQuiz();
       }
-    }, 1600);
+    }, 1000);
+  runQuestions();
 }
 
 function home() {
@@ -123,47 +124,20 @@ function home() {
       "<h2><center>Try to answer the following questions. You have 60 Seconds. Incorrect answers will deduct your score and time by 10.</center></h2>" +
       "<br><center><button class='start-quiz' type='button'>Start Quiz</button></center>";
     startQuizBtn = document.querySelector(".start-quiz");
-    startQuizBtn.addEventListener("click", startQuiz);
+    startQuizBtn.addEventListener("click", startTimer);
     startQuizBtn.addEventListener("click", resetTimer);
 }
 
 // Function to Start Quiz //
-function startQuiz() {
-    startTimer();
-    clearInterval(startTimer);
-    if (questionCounter === 0) {
-      choicesEl.innerHTML = "";
-      renderQuestion(quizQuestions[questionCounter]);
-      createButton(quizQuestions[questionCounter]);
-      createListeners();
-    } else if (questionCounter === 1) {
-      choicesEl.innerHTML = "";
-      renderQuestion(quizQuestions[questionCounter]);
-      createButton(quizQuestions[questionCounter]);
-      createListeners();
-    } else if (questionCounter === 2) {
-      choicesEl.innerHTML = "";
-      renderQuestion(quizQuestions[questionCounter]);
-      createButton(quizQuestions[questionCounter]);
-      createListeners();
-    } else if (questionCounter === 3) {
-      choicesEl.innerHTML = "";
-      renderQuestion(quizQuestions[questionCounter]);
-      createButton(quizQuestions[questionCounter]);
-      createListeners();
-    } else if (questionCounter === 4) {
-      choicesEl.innerHTML = "";
-      renderQuestion(quizQuestions[questionCounter]);
-      createButton(quizQuestions[questionCounter]);
-      createListeners();
-    } else if (questionCounter === 5) {
-      choicesEl.innerHTML = "";
-      renderQuestion(quizQuestions[questionCounter]);
-      createButton(quizQuestions[questionCounter]);
-      createListeners();
-    } else {
-      endQuiz();
-    }
+function runQuestions() {
+  if (questionCounter < 6) {
+    choicesEl.innerHTML = "";
+    renderQuestion(quizQuestions[questionCounter]);
+    createButton(quizQuestions[questionCounter]);
+    createListeners();
+  } else {
+    endQuiz();
+  }
 }
 
 function endQuiz() {
@@ -329,7 +303,7 @@ function clickedChoiceOne() {
         answerEl.innerHTML = "";
         questionCounter++;
         score += 10;
-        startQuiz();
+        runQuestions();
       }, 1000);
     } else {
       answerEl.innerHTML = "Incorrect: -10 Seconds";
@@ -338,7 +312,7 @@ function clickedChoiceOne() {
         questionCounter++;
         score -= 10;
         timer -= 10;
-        startQuiz();
+        runQuestions();
       }, 1000);
     }
 }
@@ -350,7 +324,7 @@ function clickedChoiceTwo() {
         answerEl.innerHTML = "";
         questionCounter++;
         score += 10;
-        startQuiz();
+        runQuestions();
       }, 1000);
     } else {
       answerEl.innerHTML = "Incorrect: -10 Seconds";
@@ -359,7 +333,7 @@ function clickedChoiceTwo() {
         questionCounter++;
         score -= 10;
         timer -= 10;
-        startQuiz();
+        runQuestions();
       }, 1000);
     }
 }
@@ -371,7 +345,7 @@ function clickedChoiceThree() {
         answerEl.innerHTML = "";
         questionCounter++;
         score += 10;
-        startQuiz();
+        runQuestions();
       }, 1000);
     } else {
       answerEl.innerHTML = "Incorrect: -10 Seconds";
@@ -380,7 +354,7 @@ function clickedChoiceThree() {
         questionCounter++;
         score -= 10;
         timer -= 10;
-        startQuiz();
+        runQuestions();
       }, 1000);
     }
 }
@@ -392,7 +366,7 @@ function clickedChoiceFour() {
         answerEl.innerHTML = "";
         questionCounter++;
         score += 10;
-        startQuiz();
+        runQuestions();
       }, 1000);
     } else {
       answerEl.innerHTML = "Incorrect: -10 Seconds";
@@ -401,7 +375,7 @@ function clickedChoiceFour() {
         questionCounter++;
         score -= 10;
         timer -= 10;
-        startQuiz();
+        runQuestions();
       }, 1000);
     }
 }
